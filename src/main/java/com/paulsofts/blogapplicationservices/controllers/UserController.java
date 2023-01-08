@@ -18,6 +18,8 @@ import com.paulsofts.blogapplicationservices.payloads.UserDto;
 import com.paulsofts.blogapplicationservices.services.UserServiceImpl;
 import com.paulsofts.blogapplicationservices.utils.GenericResponse;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("api/users")
 public class UserController {
@@ -31,13 +33,13 @@ public class UserController {
 	}
 	
 	@PostMapping("/create")
-	public ResponseEntity<GenericResponse<UserDto>> createUser(@RequestBody UserDto userDto){
+	public ResponseEntity<GenericResponse<UserDto>> createUser(@Valid @RequestBody UserDto userDto){
 		UserDto createdUserDto = this.userServiceImpl.createUser(userDto);
 		return new ResponseEntity<GenericResponse<UserDto>>(new GenericResponse<UserDto>(createdUserDto, "user created", "OK"), HttpStatus.CREATED);
 	}
 	
 	@PutMapping("/update/{id}")
-	public ResponseEntity<GenericResponse<UserDto>> updateUser(@RequestBody UserDto userDto, @PathVariable("id") int userId){
+	public ResponseEntity<GenericResponse<UserDto>> updateUser(@Valid @RequestBody UserDto userDto, @PathVariable("id") int userId){
 		UserDto updatedUserDto = this.userServiceImpl.updateUser(userDto, userId);
 		return new ResponseEntity<GenericResponse<UserDto>>(new GenericResponse<UserDto>(updatedUserDto,"user updated", "OK"), HttpStatus.OK); 
 	}

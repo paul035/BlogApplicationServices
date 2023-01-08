@@ -24,6 +24,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
+		//data(Model class) are used here, apart from this everywhere DTO(data transfer object) is used
 		User userSavedToDB = this.userRepository.save(this.dtoToUser(userDto));
 		return this.userToDto(userSavedToDB);
 		
