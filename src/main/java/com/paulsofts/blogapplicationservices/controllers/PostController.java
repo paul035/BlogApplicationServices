@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.paulsofts.blogapplicationservices.payloads.PostDto;
+import com.paulsofts.blogapplicationservices.payloads.PostResponse;
 import com.paulsofts.blogapplicationservices.services.PostServiceImpl;
 
 @RestController
@@ -38,15 +40,21 @@ public class PostController {
 	}
 	
 	@GetMapping("/get/user/{userId}")
-	public ResponseEntity<List<PostDto>> getAllPostByUser(@PathVariable("userId") int userId){
-		List<PostDto> postDtoList = this.postServiceImpl.getAllPostByUser(userId);
-		return new ResponseEntity<List<PostDto>>(postDtoList, HttpStatus.OK);
+	public ResponseEntity<PostResponse> getAllPostByUser(
+			@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
+			@PathVariable("userId") int userId){
+		PostResponse postResponse = this.postServiceImpl.getAllPostByUser(pageNum, pageSize, userId);
+		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 	
 	@GetMapping("/get/category/{categoryId}")
-	public ResponseEntity<List<PostDto>> getAllPostByCategory(@PathVariable("categoryId") int categoryId){
-		List<PostDto> postDtoList = this.postServiceImpl.getAllPostByCategory(categoryId);
-		return new ResponseEntity<List<PostDto>>(postDtoList, HttpStatus.OK);
+	public ResponseEntity<PostResponse> getAllPostByCategory(
+			@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
+			@RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
+			@PathVariable("categoryId") int categoryId){
+		PostResponse postResponse = this.postServiceImpl.getAllPostByCategory(pageNum, pageSize, categoryId);
+		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 	
 	@GetMapping("/get/{postId}")
@@ -56,9 +64,11 @@ public class PostController {
 	}
 	
 	@GetMapping("/get")
-	public ResponseEntity<List<PostDto>> getAllPost(){
-		List<PostDto> postDtoList = this.postServiceImpl.getAllPost();
-		return new ResponseEntity<List<PostDto>>(postDtoList, HttpStatus.OK);
+	public ResponseEntity<PostResponse> getAllPost(
+			@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
+			@RequestParam(value = "pageSize", defaultValue = "3", required = false) int pageSize){
+		PostResponse postResponse = this.postServiceImpl.getAllPost(pageNum, pageSize);
+		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 	
 	@DeleteMapping("/delete/{postId}")
