@@ -43,8 +43,10 @@ public class PostController {
 	public ResponseEntity<PostResponse> getAllPostByUser(
 			@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
 			@PathVariable("userId") int userId){
-		PostResponse postResponse = this.postServiceImpl.getAllPostByUser(pageNum, pageSize, userId);
+		PostResponse postResponse = this.postServiceImpl.getAllPostByUser(pageNum, pageSize, userId, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 	
@@ -52,8 +54,10 @@ public class PostController {
 	public ResponseEntity<PostResponse> getAllPostByCategory(
 			@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
 			@RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
+			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
 			@PathVariable("categoryId") int categoryId){
-		PostResponse postResponse = this.postServiceImpl.getAllPostByCategory(pageNum, pageSize, categoryId);
+		PostResponse postResponse = this.postServiceImpl.getAllPostByCategory(pageNum, pageSize, categoryId, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
 	

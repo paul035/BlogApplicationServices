@@ -108,8 +108,14 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostResponse getAllPostByUser(int pageNum, int pageSize, int userId) {
-		Pageable pageable = PageRequest.of(pageNum, pageSize);
+	public PostResponse getAllPostByUser(int pageNum, int pageSize, int userId, String sortBy, String sortDir) {
+		Sort sort = null;
+		if(sortDir.equalsIgnoreCase("asc")) {
+			sort = Sort.by(sortBy).ascending();
+		}else if(sortDir.equalsIgnoreCase("desc")) {
+			sort = Sort.by(sortBy).descending();
+		}
+		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
 		Page<Post> postPages = this.postRepository.findAll(pageable);
 		List<Post> postList =  postPages.getContent();
 //		User user = this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("user", "id", userId));
@@ -129,8 +135,14 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public PostResponse getAllPostByCategory(int pageNum, int pageSize, int categoryId) {
-		Pageable pageable = PageRequest.of(pageNum, pageSize);
+	public PostResponse getAllPostByCategory(int pageNum, int pageSize, int categoryId, String sortBy, String sortDir) {
+		Sort sort = null;
+		if(sortDir.equalsIgnoreCase("asc")) {
+			sort = Sort.by(sortBy).ascending();
+		}else if(sortDir.equalsIgnoreCase("desc")){
+			sort = Sort.by(sortBy).descending();
+		}
+		Pageable pageable = PageRequest.of(pageNum, pageSize, sort);
 		Page<Post> postPages = this.postRepository.findAll(pageable);
 		List<Post> postList = postPages.getContent();
 		Category category = this.categoryRepository.findById(categoryId).orElseThrow(() -> new ResourceNotFoundException("category", "id", categoryId));

@@ -14,9 +14,9 @@ public interface PostService {
 	public PostResponse getAllPost(int pageNum, int pageSize, String sortBy, String sortDir);
 	/* public List<PostDto> getAllPost(int pageNum, int pageSize); */
 	public void deletePost(int postId);
-	public PostResponse getAllPostByUser(int pageNum, int pageSize, int userId);
+	public PostResponse getAllPostByUser(int pageNum, int pageSize, int userId, String sortBy, String sortDir);
 	/* public List<PostDto> getAllPostByUser(int userId); */
-	public PostResponse getAllPostByCategory(int pageNum, int pageSize, int categoryId);
+	public PostResponse getAllPostByCategory(int pageNum, int pageSize, int categoryId, String sortBy, String sortDir);
 	/* public List<PostDto> getAllPostByCategory(int categoryId); */
 	public List<PostDto> searchPost(String keyword);
 	
