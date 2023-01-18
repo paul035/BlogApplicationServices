@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.paulsofts.blogapplicationservices.payloads.PostDto;
 import com.paulsofts.blogapplicationservices.payloads.PostResponse;
 import com.paulsofts.blogapplicationservices.services.PostServiceImpl;
+import com.paulsofts.blogapplicationservices.utils.AppConstants;
 
 @RestController
 @RequestMapping("/api/posts")
@@ -41,10 +43,10 @@ public class PostController {
 	
 	@GetMapping("/get/user/{userId}")
 	public ResponseEntity<PostResponse> getAllPostByUser(
-			@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
-			@RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
-			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
+			@RequestParam(value = "pageNum", defaultValue = AppConstants.PAGE_NUMBER, required = false) int pageNum,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) int pageSize,
+			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR, required = false) String sortDir,
 			@PathVariable("userId") int userId){
 		PostResponse postResponse = this.postServiceImpl.getAllPostByUser(pageNum, pageSize, userId, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
@@ -52,10 +54,10 @@ public class PostController {
 	
 	@GetMapping("/get/category/{categoryId}")
 	public ResponseEntity<PostResponse> getAllPostByCategory(
-			@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
-			@RequestParam(value = "pageSize", defaultValue = "5", required = false) int pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
-			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir,
+			@RequestParam(value = "pageNum", defaultValue = AppConstants.PAGE_NUMBER, required = false) int pageNum,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) int pageSize,
+			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR, required = false) String sortDir,
 			@PathVariable("categoryId") int categoryId){
 		PostResponse postResponse = this.postServiceImpl.getAllPostByCategory(pageNum, pageSize, categoryId, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
@@ -69,10 +71,10 @@ public class PostController {
 	
 	@GetMapping("/get")
 	public ResponseEntity<PostResponse> getAllPost(
-			@RequestParam(value = "pageNum", defaultValue = "0", required = false) int pageNum,
-			@RequestParam(value = "pageSize", defaultValue = "3", required = false) int pageSize,
-			@RequestParam(value = "sortBy", defaultValue = "postId", required = false) String sortBy,
-			@RequestParam(value = "sortDir", defaultValue = "asc", required = false) String sortDir){
+			@RequestParam(value = "pageNum", defaultValue = AppConstants.PAGE_NUMBER, required = false) int pageNum,
+			@RequestParam(value = "pageSize", defaultValue = AppConstants.PAGE_SIZE, required = false) int pageSize,
+			@RequestParam(value = "sortBy", defaultValue = AppConstants.SORT_BY, required = false) String sortBy,
+			@RequestParam(value = "sortDir", defaultValue = AppConstants.SORT_DIR, required = false) String sortDir){
 		PostResponse postResponse = this.postServiceImpl.getAllPost(pageNum, pageSize, sortBy, sortDir);
 		return new ResponseEntity<PostResponse>(postResponse, HttpStatus.OK);
 	}
@@ -81,6 +83,12 @@ public class PostController {
 	public ResponseEntity<String> deletePost(@PathVariable("postId") int postId){
 		this.postServiceImpl.deletePost(postId);
 		return new ResponseEntity<String>("post deleted", HttpStatus.OK);
+	}
+	
+	@GetMapping("/search/{keyword}")
+	public ResponseEntity<List<PostDto>> searchPost(@PathVariable("keyword") String keyword){
+		List<PostDto> postDtoList = this.postServiceImpl.searchPost(keyword);
+		return new ResponseEntity<List<PostDto>>(postDtoList, HttpStatus.OK);
 	}
 
 }
