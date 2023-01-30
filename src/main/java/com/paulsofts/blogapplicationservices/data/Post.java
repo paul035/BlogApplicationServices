@@ -1,9 +1,13 @@
 package com.paulsofts.blogapplicationservices.data;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 import org.hibernate.annotations.ManyToAny;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -35,11 +39,16 @@ public class Post {
 	private String postImage;
 	@Column(name="postDate")
 	private Date postDate;
+	//many post can have one category
 	@ManyToOne
 	@JoinColumn(name="categoryId")
 	private Category category;
+	//manu post can have one user
 	@ManyToOne
 	private User user;
+	//one post can contain many comments
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+	private List<Comment> comments = new ArrayList<>();
 	
 
 }
